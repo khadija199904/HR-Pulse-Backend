@@ -9,7 +9,7 @@ load_dotenv()
 DATA_PATH = os.getenv("DATA_PATH")
 
 azure_key = os.getenv("AZURE_AI_KEY")
-azure_endpoint = os.getenv("AZURE_AI_ENDPOINT"
+azure_endpoint = os.getenv("AZURE_AI_ENDPOINT")
 db_azure_url = os.getenv("AZURE_SQL_URL")
 
 # DATABASE_URL = os.getenv("DATABASE_URL")
@@ -34,9 +34,3 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 
-if __name__ == "__main__":
-  try:
-    client = chromadb.HttpClient(host=CHROMA_HOST, port=CHROMA_PORT )
-    print(f"Connecté au serveur Chroma sur {CHROMA_HOST}:{CHROMA_PORT }")
-  except Exception as e:
-    print(f"Erreur de connexion : {e}")
