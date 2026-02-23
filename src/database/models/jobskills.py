@@ -1,3 +1,6 @@
+from sqlalchemy import Column, Integer, String, Text
+from src.database.session import Base
+
 class JobSkill(Base):
     __tablename__ = 'job_skills'
     id = Column(Integer, primary_key=True)
