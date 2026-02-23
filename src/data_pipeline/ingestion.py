@@ -1,13 +1,11 @@
 import pandas as pd
 import os
-import sys
 import json
 from src.ai_ner.get_client import authenticate_client
-from src.core.config import DATA_PATH,db_azure_url
-from src.database.session import get_db
-from src.database.models import JobSkill
-from fastapi import Depends
-from sqlalchemy.orm import Session
+from src.core.config import db_azure_url
+from src.database.models.jobskills import JobSkill
+from src.database.session import SessionLocal,engine,Base
+
 
 
 
@@ -46,22 +44,23 @@ def ingest_data(file_path):
     df_clean.rename(columns={'index': 'id', 'job_title_cleaned': 'job_title', 'Job Description': 'job_description'}, inplace=True)
     return df_clean
 
-def inject_to_sql(df,db: Session = Depends(get_db)):
+def inject_to_sql(df):
     """Inject cleaned data into Azure SQL."""
-  
+    Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
     if not db_azure_url:
         print("Error: AZURE_SQL_URL not found in .env")
         return
     
     try:
        
-        for index, row in df.iterrows():
-            job_skill = JobSkill(
-                id=int(row['id']),
-                job_title=row['job_title'],
-                skills_extracted=row['skills_extracted']
+        for record in df.to_dict('records'):
+            jobskill = JobSkill(
+                id=int(record['id']),
+                job_title=record['job_title'],
+                skills_extracted=record['skills_extracted']
             )
-            db.merge(job_skill) 
+            db.merge(jobskill) 
             
         db.commit()
         print(f"Successfully injected {len(df)} records into Azure SQL.")
@@ -87,7 +86,6 @@ def run_pipeline(file_path, limit=3):
     return df_sample
 
 if __name__ == "__main__":
-    # raw_path = os.path.join("data", "raw", "jobs.csv")
-    # run_pipeline(raw_path, limit=2)
-     df = ingest_data(DATA_PATH)
-     print(df.head())
+    from src.core.config import DATA_PATH
+    run_pipeline(DATA_PATH, limit=2)
+     
