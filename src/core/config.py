@@ -5,8 +5,9 @@ import os
 # Load environment variables from .env
 load_dotenv()
 
-
+# chemins
 DATA_PATH = os.getenv("DATA_PATH")
+DATA_PATH_PROCESSED = os.getenv("DATA_PATH_PROCESSED")
 
 azure_key = os.getenv("AZURE_AI_KEY")
 azure_endpoint = os.getenv("AZURE_AI_ENDPOINT")
