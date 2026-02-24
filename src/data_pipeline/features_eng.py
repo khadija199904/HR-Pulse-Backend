@@ -1,5 +1,5 @@
 import pandas as pd
-from data_cleaning import clean_data
+from .data_cleaning import clean_data
 
 
 def engineer_features(df_cleaned):
@@ -34,10 +34,10 @@ def engineer_features(df_cleaned):
     df['job_state'] = df['Location'].apply(lambda x: x.split(',')[-1].strip() if ',' in str(x) else 'Remote')
     
     # Sélection des colonnes finales pour le modèle
-    final_cols = ['avg_salary','Sector','Industry','revenue_rank', 'job_role', 'job_state', ]
+    
 
-    output_path = "./data/processed/cleaned_data.csv"
-    df_final = df[final_cols]
+    output_path = "./data/raw/cleaned_data.csv"
+    df_final = df
     # Sauvegarder le DataFrame
     df_final.to_csv(output_path, index=False, encoding='utf-8')
 
