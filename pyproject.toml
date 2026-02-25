@@ -16,4 +16,5 @@ dependencies = [
     "pyodbc>=5.0.0",
     "fastapi>=0.131.0",
     "scikit-learn>=1.8.0",
+    "tqdm>=4.67.3",
 ]
