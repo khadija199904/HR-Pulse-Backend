@@ -14,7 +14,7 @@ def get_job_titles(db: Session = Depends(get_db)):
     results = jobs_crud.liste_jobs(db)
     return [r[0] for r in results]
 
-@router.get("/search", response_model=list[JobSkillSchema])
+@router.get("/search", response_model=list[str])
 def search_jobs(skills: str, db: Session = Depends(get_db)):
     return jobs_crud.search_jobs_by_skills(db, skills)
 

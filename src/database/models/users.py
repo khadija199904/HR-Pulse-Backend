@@ -14,4 +14,3 @@ class USER(Base) :
 
     created_at = Column(DateTime,default=func.now())
     
-    queries = relationship('Query',back_populates="owner")
