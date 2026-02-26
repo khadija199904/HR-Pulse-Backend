@@ -22,6 +22,8 @@ pyproject.toml
 # Python
 __pycache__/
 .pytest_cache/
+# Python
+__pycache__/
 *.py[cod]
 *$py.class
 .venv/

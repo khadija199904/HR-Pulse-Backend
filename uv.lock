@@ -378,6 +378,12 @@ dependencies = [
     { name = "sqlalchemy" },
     { name = "tqdm" },
     { name = "uvicorn" },
+    { name = "pyodbc" },
+    { name = "pytest" },
+    { name = "python-dotenv" },
+    { name = "scipy" },
+    { name = "seaborn" },
+    { name = "sqlalchemy" },
 ]
 
 [package.metadata]
@@ -398,6 +404,12 @@ requires-dist = [
     { name = "sqlalchemy", specifier = ">=2.0.0" },
     { name = "tqdm", specifier = ">=4.67.3" },
     { name = "uvicorn", specifier = ">=0.41.0" },
+    { name = "pyodbc", specifier = ">=5.0.0" },
+    { name = "pytest", specifier = ">=9.0.2" },
+    { name = "python-dotenv", specifier = ">=1.2.1" },
+    { name = "scipy", specifier = ">=1.17.0" },
+    { name = "seaborn", specifier = ">=0.13.2" },
+    { name = "sqlalchemy", specifier = ">=2.0.0" },
 ]
 
 [[package]]
