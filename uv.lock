@@ -378,12 +378,15 @@ dependencies = [
     { name = "sqlalchemy" },
     { name = "tqdm" },
     { name = "uvicorn" },
+<<<<<<< HEAD
     { name = "pyodbc" },
     { name = "pytest" },
     { name = "python-dotenv" },
     { name = "scipy" },
     { name = "seaborn" },
     { name = "sqlalchemy" },
+=======
+>>>>>>> feature/HPP-12-FastAPI-Backend
 ]
 
 [package.metadata]
