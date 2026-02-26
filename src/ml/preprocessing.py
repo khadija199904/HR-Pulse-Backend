@@ -2,6 +2,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 import pandas as pd
 
@@ -9,6 +10,7 @@ def preprocess_data(X_train,y_train,):
    
     numeric_features = ['revenue_rank']
     categorical_features = ['Sector', 'Industry', 'job_role', 'job_state']
+    text_feature = 'Job Description'
 
     
 
@@ -17,6 +19,7 @@ def preprocess_data(X_train,y_train,):
         transformers=[
             ('num', StandardScaler(), numeric_features),
             ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
+            ('text', TfidfVectorizer(max_features=500, stop_words='english'), text_feature)
         ])
     
     models =  { 
