@@ -1,0 +1,52 @@
+from fastapi import APIRouter,Depends,HTTPException
+from sqlalchemy.orm import Session
+from src.api.schemas.user_schema import UserCreate ,UserLogin
+from src.database.models.users import USER
+from src.api.crud.user_crud import create_user
+from src.core.security import verify_password_hash ,create_token
+from src.api.dependencies import get_db
+
+router = APIRouter( prefix="/auth", tags=["Authentification"])
+
+@router.post('/register')
+async def Register(user : UserCreate ,db: Session = Depends(get_db)) :
+
+   if not user.username.strip() or not user.password.strip() or not user.email.strip() :
+    
+    raise HTTPException(
+        status_code=400,
+        detail="Veuillez remplir tous les champs : nom d'utilisateur et mot de passe."
+    )
+   
+   existing_user = db.query(USER).filter(USER.email == user.email and USER.username== user.username ).first()
+   if existing_user:
+         raise HTTPException(status_code=400,detail="Compte Déja existe")
+   
+   new_user = create_user(user)
+   print("Nouvel utilisateur créé :", new_user)
+   print(new_user)
+   db.add(new_user)
+   db.commit()
+   db.refresh(new_user)
+   
+   return {"message": "Compte créé avec succès", "username": new_user.username}
+
+
+# Endpoint login protégée
+
+@router.post("/login") 
+async def login(user : UserLogin,db: Session = Depends(get_db)):
+     
+     if not user.email.strip() or not user.password.strip():
+        raise HTTPException(status_code=400, detail="Email et password requis")
+     
+     user_data = db.query(USER).filter(USER.email == user.email ).first()
+     
+     if not user_data or not verify_password_hash(user.password,user_data.password_hash):
+        raise HTTPException(status_code=401,detail="Access Failed (Incorrect Identifiant or password)")
+     
+     token = create_token(user_data) 
+     return {    
+             "access_token": token,
+             "token_type": "bearer"
+               }
