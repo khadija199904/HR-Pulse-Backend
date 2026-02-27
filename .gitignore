@@ -19,9 +19,7 @@ terraform/
 .terraform.lock.hcl
 pyproject.toml
 *.lock
-# Python
-__pycache__/
-.pytest_cache/
+
 # Python
 __pycache__/
 .pytest_cache/
@@ -31,3 +29,5 @@ __pycache__/
 venv/
 .uv/
 data/
+ml_models/
+*.pkl
