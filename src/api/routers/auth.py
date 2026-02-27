@@ -18,9 +18,13 @@ async def Register(user : UserCreate ,db: Session = Depends(get_db)) :
         detail="Veuillez remplir tous les champs : nom d'utilisateur et mot de passe."
     )
    
-   existing_user = db.query(USER).filter(USER.email == user.email and USER.username== user.username ).first()
+   
+   existing_user = db.query(USER).filter(USER.email == user.email, USER.username == user.username).first() 
    if existing_user:
-         raise HTTPException(status_code=400,detail="Compte Déja existe")
+        if existing_user.email == user.email:
+            raise HTTPException(status_code=400, detail="Cet email est déjà utilisé")
+        if existing_user.username == user.username:
+            raise HTTPException(status_code=400, detail="Ce nom d'utilisateur est déjà pris")
    
    new_user = create_user(user)
    print("Nouvel utilisateur créé :", new_user)
