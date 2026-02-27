@@ -17,6 +17,6 @@ def verify_password_hash(password,hashed_password):
 
 def create_token(user):
     payload = { "id": user.id}
-
+    print(f"DEBUG: SECRET_KEY is {type(SECRET_KEY)} and value is {SECRET_KEY}")
     token = jwt.encode(payload,key=SECRET_KEY,algorithm="HS256")
     return token
