@@ -9,10 +9,8 @@ def liste_jobs(db):
 
 def search_jobs_by_skills(db: Session, skills: str, limit: int = 20):
     skill_list = [s.strip() for s in skills.split(",") if s.strip()]
-    filters = [jobskills.JobSkill.skills_extracted.contains(skill) for skill in skill_list]
+    if not skill_list:
+        return []
 
-    
-    results = db.query(jobskills.JobSkill.job_title).filter(or_(*filters)).distinct().limit(limit).all()
-    
-    
-    return [r[0] for r in results]
+    filters = [jobskills.JobSkill.skills_extracted.contains(skill) for skill in skill_list]
+    return db.query(jobskills.JobSkill).filter(or_(*filters)).distinct().limit(limit).all()
