@@ -2,44 +2,32 @@ import time
 import pandas as pd
 from tqdm import tqdm
 from src.ai_ner.get_client import authenticate_client
-
-def run_ner_extraction(data_path, output_path, limit=600):
-    client = authenticate_client()
-    df = pd.read_csv(data_path)
-
-    # Process only the requested limit
-    df_subset = df.head(limit).copy()
-
+def run_ner_extraction(df_subset, client):
+    """Extrait les compétences en respectant les limites du Free Tier."""
     all_skills = []
+    print(f"Extraction NER pour {len(df_subset)} lignes...")
 
-    print(f"Extracting skills for {limit} jobs using Azure NER...")
-
-    # Process 1 by 1 to avoid batch limits
     for i, row in tqdm(df_subset.iterrows(), total=len(df_subset)):
-        description = str(row["Job Description"])[:1000]  # 1000 chars
+        description = str(row["job_description"])[:1000] 
         try:
             response = client.recognize_entities([description])
             doc = response[0]
             if not doc.is_error:
-                # relevant skills are in 'Skill' or 'Product' categories
                 skills = [
                     entity.text
                     for entity in doc.entities
-                    if entity.category in ["Skill", "Product"]
+                    if entity.category in ["Skill", "Product", "SkillName", "ProgrammingLanguage"]
                 ]
                 all_skills.append(", ".join(list(set(skills))))
             else:
                 all_skills.append("")
         except Exception as e:
-            print(f"\nError at row {i}: {e}")
+            print(f"\nErreur ligne {i}: {e}")
             all_skills.append("")
 
-        # Free tier pause
         time.sleep(1.0)
-
-    df_subset["extracted_skills"] = all_skills
-    df_subset.to_csv(output_path, index=False)
-    print(f"\nExtraction complete. Saved {len(df_subset)} records to {output_path}")
+    
+    return all_skills
 
 
 if __name__ == "__main__":
