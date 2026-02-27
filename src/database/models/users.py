@@ -10,7 +10,7 @@ class USER(Base) :
     email=Column(String(100),nullable=False,unique=True)
     username = Column(String(50),nullable=False,unique=True)
     password_hash = Column(String,nullable=False)
-    is_active = Column(Boolean ,unique=True)
+    is_active = Column(Boolean, default=True)
 
     created_at = Column(DateTime,default=func.now())
     
