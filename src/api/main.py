@@ -1,10 +1,24 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from src.api.routers import auth , predict, jobs
 from src.database.session import Base,engine
 
 
 app  = FastAPI(title = "HR Pulse Application")
 
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://frontend:3000",  
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,             
+    allow_credentials=True,           
+    allow_methods=["*"],               
+    allow_headers=["*"],               
+)
 Base.metadata.create_all(bind=engine)
 
 app.include_router(auth.router)
