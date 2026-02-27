@@ -7,39 +7,37 @@ on:
     branches: [ main, develop ]
 
 jobs:
-  # JOB 1 : Tests et Qualité du code
   test-and-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
 
-      - name: Configuration de Python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: '3.12'
-          cache: 'pip' 
+          enable-cache: true
 
-      - name: Installation des dépendances
+      - name: Configuration de Python
+        run: uv python install 3.12
+
+      - name: Installation des dépendances (via pyproject.toml)
         working-directory: ./HR-pulse-backend
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest ruff
+          uv sync --frozen # Installe les dépendances définies dans pyproject.toml / uv.lock
 
       - name: Linting avec Ruff
         working-directory: ./HR-pulse-backend
-        run: ruff check .
+        run: uv run ruff check .
 
       - name: Exécution des tests Pytest
         working-directory: ./HR-pulse-backend
-        run: pytest
+        run: uv run pytest
 
-  # JOB 2 : Build et Push des images Docker
   build-and-push:
     needs: test-and-lint
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' # On ne push que lors d'un vrai commit
+    if: github.event_name == 'push'
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -53,22 +51,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Build Backend
       - name: Build and Push Backend
         uses: docker/build-push-action@v5
         with:
           context: ./HR-pulse-backend
           push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-backend:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-backend:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-backend:latest
 
-      # Build Frontend
       - name: Build and Push Frontend
         uses: docker/build-push-action@v5
         with:
-          context: ./HR-pulse-frontend
+          context: ./HR-pulse-frontend/hr-pulse-app
           push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-frontend:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-frontend:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-frontend:latest
