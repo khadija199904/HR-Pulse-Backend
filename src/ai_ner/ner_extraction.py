@@ -1,7 +1,7 @@
 import time
 import pandas as pd
 from tqdm import tqdm
-from ner_extraction import authenticate_client
+from src.ai_ner.get_client import authenticate_client
 
 def run_ner_extraction(data_path, output_path, limit=600):
     client = authenticate_client()
