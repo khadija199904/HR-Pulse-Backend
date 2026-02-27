@@ -1,6 +1,7 @@
 # General
 .env
 docs/
+ml_models_saved
 
 # Terraform
 .terraform/
@@ -29,5 +30,6 @@ __pycache__/
 venv/
 .uv/
 data/
-ml_models/
+
+ml_models
 *.pkl
