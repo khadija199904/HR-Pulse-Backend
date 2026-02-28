@@ -4,7 +4,7 @@ import os
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from src.ml.data_cleaning import clean_data
+from src.ai.ml.data_cleaning import clean_data
 
 def test_data_quality():
     raw_data = {
