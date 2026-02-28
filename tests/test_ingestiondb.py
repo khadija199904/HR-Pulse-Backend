@@ -3,19 +3,20 @@ from unittest.mock import patch, MagicMock
 import pandas as pd
 import json
 
-from src.database.session import engine
-
 MOCK_CSV_CONTENT = """index,Job Title,Job Description
 1,Python Developer,"Looking for a dev with SQL and Python skills."
 2,Data Scientist,"Experience in Machine Learning and R is required."
 """
 
 MOCK_AZURE_RESPONSE = [
-    MagicMock(is_error=False, entities=[
+    # Document 1 : Python et SQL
+    MagicMock(entities=[
         MagicMock(text="Python", category="Skill"),
-        MagicMock(text="SQL", category="Skill")
+        MagicMock(text="SQL", category="Skill"),
+        MagicMock(text="Rabat", category="Location")
     ]),
-    MagicMock(is_error=False, entities=[
+    # Document 2 : Machine Learning
+    MagicMock(entities=[
         MagicMock(text="Machine Learning", category="Skill")
     ])
 ]
