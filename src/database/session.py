@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine 
 from src.core.config import db_azure_url
 from sqlalchemy.orm import declarative_base , sessionmaker
+from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 
 
 engine= create_engine(db_azure_url)
@@ -8,6 +9,8 @@ engine= create_engine(db_azure_url)
 SessionLocal = sessionmaker(autoflush=False,autocommit=False,bind = engine)
 
 Base = declarative_base()
+
+SQLAlchemyInstrumentor().instrument(engine=engine)
 
 def get_db():
     db = SessionLocal()
@@ -25,3 +28,5 @@ if __name__ == "__main__":
    except Exception as e:
         print(f"Failed to connect: {e}")
  
+
+
