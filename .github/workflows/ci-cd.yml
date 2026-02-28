@@ -53,5 +53,4 @@ jobs:
         with:
           context: .
           push: true
-         e
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-backend:latest
