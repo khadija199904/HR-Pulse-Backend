@@ -31,5 +31,7 @@ venv/
 .uv/
 data/
 
-ml_models
+
 *.pkl.terraform/
+
+test.py
