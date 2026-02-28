@@ -1,10 +1,10 @@
 import pandas as pd
 import os
-from src.ai_ner.get_client import authenticate_client
+from src.ai.ner.get_client import authenticate_client
 from src.core.config import db_azure_url
 from src.database.models.jobskills import JobSkill
 from src.database.session import SessionLocal,engine,Base
-from src.ai_ner.ner_extraction import run_ner_extraction
+from src.ai.ner.ner_extraction import run_ner_extraction
 from src.data_engineering.data_cleaning  import clean_data
 
 
