@@ -56,7 +56,7 @@ def test_extract_skills_mapping():
 
 
 
-    @patch('src.database.session.SessionLocal')
+@patch('src.database.session.SessionLocal')
 def test_sql_injection_format(mock_session_local):
     """Teste si les données envoyées à SQLAlchemy ont le bon format."""
     

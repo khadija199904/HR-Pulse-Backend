@@ -1,7 +1,6 @@
 import time
-import pandas as pd
 from tqdm import tqdm
-from src.ai_ner.get_client import authenticate_client
+
 def run_ner_extraction(df_subset, client):
     """Extrait les compétences en respectant les limites du Free Tier."""
     all_skills = []

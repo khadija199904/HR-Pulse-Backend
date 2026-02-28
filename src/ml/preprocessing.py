@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 
-import pandas as pd
+
 
 def preprocess_data(X_train,y_train,):
    

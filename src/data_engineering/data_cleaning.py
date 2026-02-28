@@ -8,7 +8,7 @@ def clean_salary(salary_text):
             low, high = salary_text.split('-')
             return (int(low) + int(high)) / 2
         return int(salary_text)
-    except:
+    except ValueError:
         return None
 
 def remove_outliers(df, column):

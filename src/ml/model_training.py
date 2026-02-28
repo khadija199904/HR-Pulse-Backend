@@ -9,7 +9,6 @@ from sklearn.linear_model import Ridge, RidgeCV
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 import joblib
-from sklearn.impute import SimpleImputer
 import os
 
 def extract_skills_features(df):

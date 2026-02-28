@@ -66,7 +66,8 @@ def run_pipeline(file_path, limit=None):
     
     # --- ÉTAPE 1: Chargement et Nettoyage ---
     df = ingest_data(file_path)
-    if df is None: return
+    if df is None: 
+        return
     
     # Sélection du subset selon la limite passée au pipeline
     df_sample = df.head(limit).copy()

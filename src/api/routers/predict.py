@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from src.api.schemas.predict_schema import JobProfile
 from src.api.services.ml_service import get_prediction
 
