@@ -1,6 +1,9 @@
+
 from unittest.mock import patch, MagicMock
 import pandas as pd
 import json
+
+from src.database.session import engine
 
 MOCK_CSV_CONTENT = """index,Job Title,Job Description
 1,Python Developer,"Looking for a dev with SQL and Python skills."
@@ -48,7 +51,7 @@ def test_extract_skills_mapping():
         skills = [ent.text for ent in doc.entities if ent.category == "Skill"]
         extracted_results.append(json.dumps(list(set(skills))))
     
-    # Vérifications
+    
     assert "Python" in extracted_results[0]
     assert "SQL" in extracted_results[0]
     assert "Machine Learning" in extracted_results[1]
@@ -74,8 +77,7 @@ def test_sql_injection_format(mock_session_local):
     
     # Simulation de l'injection
     for record in df_test.to_dict('records'):
-        # On vérifie juste que l'accès aux clés ne plante pas
         assert 'id' in record
         assert isinstance(record['id'], int)
         
-    print("✅ Test d'accès aux dictionnaires réussi (plus d'erreur de tuple)")
+   

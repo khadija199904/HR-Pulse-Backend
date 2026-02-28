@@ -13,31 +13,35 @@ jobs:
       - name: Checkout du code
         uses: actions/checkout@v4
 
-      # Utiliser l'installation locale de uv au lieu du setup-uv officiel 
-      # pour éviter les téléchargements inutiles sur ton PC
+     
       - name: Ensure uv is in PATH
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Installation des dépendances
-        # On utilise ton .venv existant et on synchronise
+        
         run: uv sync --frozen
 
       - name: Linting avec Ruff
         run: uv run ruff check .
 
       - name: Exécution des tests Pytest
-        run: uv run pytest
-
+        env:
+          DATABASE_URL: "sqlite:///:memory:"
+          AZURE_SQL_URL: "sqlite:///:memory:"
+        run: |
+          export PYTHONPATH=$PYTHONPATH:.
+          uv run pytest
+          
   build-and-push:
     needs: test-and-lint
-    # ATTENTION : Doit aussi être self-hosted car ubuntu-latest est bloqué
+    
     runs-on: self-hosted
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
 
-      # Assure-toi que Docker est installé et tourne sur ton PC Dell
+      
       - name: Connexion au Docker Hub
         uses: docker/login-action@v3
         with:
@@ -49,5 +53,5 @@ jobs:
         with:
           context: .
           push: true
-          # Utilise le driver docker local de ta machine
+         e
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-backend:latest
