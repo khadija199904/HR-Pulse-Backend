@@ -23,3 +23,8 @@ dependencies = [
     "python-multipart>=0.0.22",
     "argon2-cffi>=25.1.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.4",
+]
