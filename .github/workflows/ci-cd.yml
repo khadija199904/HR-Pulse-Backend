@@ -1,4 +1,4 @@
-name: CI-CD HR-PULSE
+name: HR-PULSE Backend CI-CD
 
 on:
   push:
@@ -21,23 +21,19 @@ jobs:
       - name: Configuration de Python
         run: uv python install 3.12
 
-      - name: Installation des dépendances (via pyproject.toml)
-        working-directory: ./HR-pulse-backend
-        run: |
-          uv sync --frozen # Installe les dépendances définies dans pyproject.toml / uv.lock
+      - name: Installation des dépendances
+        run: uv sync --frozen
 
       - name: Linting avec Ruff
-        working-directory: ./HR-pulse-backend
         run: uv run ruff check .
 
       - name: Exécution des tests Pytest
-        working-directory: ./HR-pulse-backend
         run: uv run pytest
 
   build-and-push:
     needs: test-and-lint
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -54,13 +50,6 @@ jobs:
       - name: Build and Push Backend
         uses: docker/build-push-action@v5
         with:
-          context: ./HR-pulse-backend
+          context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-backend:latest
-
-      - name: Build and Push Frontend
-        uses: docker/build-push-action@v5
-        with:
-          context: ./HR-pulse-frontend/hr-pulse-app
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hr-pulse-frontend:latest
