@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine 
-from src.core.config import db_azure_url
+from src.core.config import DATABASE_URL
 from sqlalchemy.orm import declarative_base , sessionmaker
 
 
-engine= create_engine(db_azure_url)
+engine= create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(autoflush=False,autocommit=False,bind = engine)
 

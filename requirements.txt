@@ -1,3 +1,7 @@
 pandas 
 seaborn
 matplotlib
+
+pytest
+matplotlib
+pytest

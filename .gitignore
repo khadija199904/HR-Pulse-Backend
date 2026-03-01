@@ -1,6 +1,7 @@
 # General
 .env
 docs/
+ml_models_saved
 
 # Terraform
 .terraform/
@@ -13,15 +14,24 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
-terraform/
+Terraform/
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
+pyproject.toml
+*.lock
+
 # Python
 __pycache__/
+.pytest_cache/
 *.py[cod]
 *$py.class
 .venv/
 venv/
 .uv/
 data/
+
+
+*.pkl.terraform/
+
+

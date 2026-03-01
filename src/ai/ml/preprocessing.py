@@ -4,7 +4,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-import pandas as pd
+
 
 def preprocess_data(X_train,y_train,):
    

@@ -8,7 +8,7 @@ def clean_salary(salary_text):
             low, high = salary_text.split('-')
             return (int(low) + int(high)) / 2
         return int(salary_text)
-    except:
+    except ValueError:
         return None
 
 def remove_outliers(df, column):
@@ -27,6 +27,8 @@ def clean_data(df_raw):
     df = df_raw.drop(columns = ["index"]).copy()
     
     df['avg_salary'] = df['Salary Estimate'].apply(clean_salary)
+    #Le nettoyage de la colonne Company Name
+    df['Company Name'] = df['Company Name'].apply(lambda x: x.split('\n')[0])
     #  Remplacer les -1 par NaN 
     cols_with_minus_one = ['Rating', 'Founded', 'Size', 'Revenue', 'Sector', 'Industry','Type of ownership','Competitors']
     for col in cols_with_minus_one:
@@ -37,8 +39,8 @@ def clean_data(df_raw):
         
         
         else:
-           # Sinon (si c'est un objet/string) -> Unknown
-          df[col] = df[col].fillna('Unknown')
+           # Sinon (si c'est un objet/string) -> others
+          df[col] = df[col].fillna('others')
           df[col] = df[col].replace(['Unknown / Non-Applicable'], 'Unknown')
           
     df_cleaned = remove_outliers(df, 'avg_salary')
