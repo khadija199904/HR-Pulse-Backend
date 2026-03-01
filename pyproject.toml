@@ -22,6 +22,7 @@ dependencies = [
     "python-jose>=3.5.0",
     "python-multipart>=0.0.22",
     "argon2-cffi>=25.1.0",
+    "wordcloud>=1.9.6",
 ]
 
 [dependency-groups]
