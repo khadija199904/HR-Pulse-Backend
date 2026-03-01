@@ -18,21 +18,18 @@ def ingest_data(file_path):
     # 1. Chargement du CSV brut
     df_raw = pd.read_csv(file_path)
     
-    # 2. Application de votre logique de nettoyage complète (Salaires, Outliers, NaNs)
-    # Note : clean_data supprime déjà la colonne 'index' originale
     df_cleaned = clean_data(df_raw)
     
     print(f"Données nettoyées. Valeurs manquantes Job Title : {df_cleaned['Job Title'].isna().sum()}")
 
-    # 3. Création des colonnes nécessaires pour le NER et SQL
-    # Comme clean_data a supprimé 'index', on en recrée un propre ou on utilise le reset_index
+    # 2. Création des colonnes nécessaires pour le NER et SQL
     df_cleaned = df_cleaned.reset_index().rename(columns={'index': 'id'})
     
     df_cleaned['job_title'] = df_cleaned['Job Title'].apply(
         lambda x: x.strip() if isinstance(x, str) else "na"
     )
     
-    # 4. Sélection et renommage des colonnes finales
+    # 3. Sélection et renommage des colonnes finales
     df_final = df_cleaned[['id', 'job_title', 'Job Description']].copy()
     df_final.rename(columns={'Job Description': 'job_description'}, inplace=True)
     
@@ -78,16 +75,12 @@ def run_pipeline(file_path, limit=None):
         print("Échec de l'authentification Azure.")
         return
 
-    # --- ÉTAPE 3: Extraction (Appel de votre fonction) ---
-    # On passe le DataFrame et le client à la fonction
+    # --- ÉTAPE 3: Extraction (NER) ---
     extracted_results = run_ner_extraction(df_sample, client)
     df_sample['skills_extracted'] = extracted_results
 
     # --- ÉTAPE 4: Injection SQL ---
     inject_to_sql(df_sample)
-    
-    # Optionnel : Sauvegarde CSV de secours
-    # df_sample.to_csv("data_extracted_checkpoint.csv", index=False)
     
     return df_sample
 

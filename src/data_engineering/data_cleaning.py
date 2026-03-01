@@ -27,6 +27,8 @@ def clean_data(df_raw):
     df = df_raw.drop(columns = ["index"]).copy()
     
     df['avg_salary'] = df['Salary Estimate'].apply(clean_salary)
+    #Le nettoyage de la colonne Company Name
+    df['Company Name'] = df['Company Name'].apply(lambda x: x.split('\n')[0])
     #  Remplacer les -1 par NaN 
     cols_with_minus_one = ['Rating', 'Founded', 'Size', 'Revenue', 'Sector', 'Industry','Type of ownership','Competitors']
     for col in cols_with_minus_one:
