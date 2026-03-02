@@ -5,6 +5,10 @@ from src.core.config import SECRET_KEY
 from src.database.models.users import USER
 from jose import JWTError, jwt
 
+from fastapi.security import OAuth2PasswordBearer
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 # Dépendance pour la base de données
 def get_db():
@@ -15,12 +19,8 @@ def get_db():
         db.close()
 
 # verificatin de token crée en login
-def get_current_user (db: Session = Depends(get_db), token : str = Header(...)):
-    if token is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
-            detail="Token d'authentification manquant dans le header"
-        )
+def get_current_user (db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    
     try :
        payload = jwt.decode(token,key=SECRET_KEY,algorithms="HS256")
        user_id = payload.get("id")
