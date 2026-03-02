@@ -20,3 +20,8 @@ class JobProfile(BaseModel):
 
     class Config:
         populate_by_name = True
+
+
+class PredictionResponse(BaseModel):
+    salary_estimate: float
+ 
