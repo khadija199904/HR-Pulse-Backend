@@ -1,44 +1,15 @@
 import pandas as pd
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
 from src.core.config import DATA_PATH_PROCESSED
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import Ridge, RidgeCV
+from sklearn.linear_model import  RidgeCV
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 import joblib
-from sklearn.feature_extraction.text import TfidfVectorizer
 from src.core.config import MODEL_ML_PATH
+from src.ai.ml.preprocessing import get_pipeline, get_feature
 
-def get_pipeline(model_obj):
-    
-    num_features = ['Rating','revenue_rank']
-    cat_features = ['job_role', 'job_state', 'Sector']
-    text_feature = 'Job Description'
 
-    numeric_transformer = StandardScaler()
-    categorical_transformer = OneHotEncoder(handle_unknown='ignore')
-    text_transformer = TfidfVectorizer(max_features=500, stop_words='english')
-
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ('num', numeric_transformer, num_features),
-            ('cat', categorical_transformer, cat_features),
-            ('text', text_transformer, text_feature),
-           
-        ],
-        remainder='drop')
-
-    # Pipeline complet
-    pipeline = Pipeline(steps=[
-        ('preprocessor', preprocessor),
-        ('model', model_obj)
-    ])
-    features_cols =num_features + cat_features  + [text_feature] 
-    
-    return pipeline, features_cols
 
 
 def evaluate_model(pipeline, X_test, y_test, model_name):
@@ -69,8 +40,8 @@ def train_salary_model(input_csv):
     best_r2 = -1
     best_pipeline = None
     best_model_name = ""
-
-    _, features = get_pipeline(None)
+    
+    _, _, _, features = get_feature()
     
     X = df[features]
     y = df['avg_salary']
@@ -85,7 +56,7 @@ def train_salary_model(input_csv):
         print(f"\nEntraînement de {name}...")
         
         
-        pipeline, _ = get_pipeline(model_obj)
+        pipeline = get_pipeline(model_obj)
         
         # Entraînement
         pipeline.fit(X_train, y_train_log)
