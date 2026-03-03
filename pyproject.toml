@@ -24,15 +24,16 @@ dependencies = [
     "argon2-cffi>=25.1.0",
     "psycopg2-binary>=2.9.11",
     "wordcloud>=1.9.6",
-]
-
-[dependency-groups]
-dev = [
-    "ruff>=0.15.4",
     "opentelemetry-api>=1.39.1",
     "opentelemetry-sdk>=1.39.1",
     "opentelemetry-exporter-otlp>=1.39.1",
     "opentelemetry-instrumentation-fastapi>=0.60b1",
     "opentelemetry-instrumentation-sqlalchemy>=0.60b1",
     "opentelemetry-instrumentation-httpx>=0.60b1",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.4",
+
 ]

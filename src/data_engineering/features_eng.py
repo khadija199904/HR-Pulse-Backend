@@ -75,12 +75,6 @@ def engineer_features(df_cleaned):
     # 8. Création du score de capacité de l'entreprise
     df['company_power_score'] = df['size_score'] * df['revenue_rank']
 
-    output_path = "./data/processed/processed_data.csv"
-   
-    # Sauvegarder le DataFrame
-    df.to_csv(output_path, index=False, encoding='utf-8')
-
-    print(f" Données sauvegardées avec succès dans : {output_path}")
     return df
 
 
