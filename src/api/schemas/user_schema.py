@@ -12,9 +12,6 @@ class UserCreate(UserBase):
     username : str
     
 
-class UserLogin(UserBase):
-    pass 
-
 
 class UserOut(UserBase):
     id: int

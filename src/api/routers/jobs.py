@@ -4,7 +4,7 @@ from src.api.dependencies import get_db
 from src.api.crud import jobs_crud
 from src.api.schemas.job_schema import JobSkillSchema
 from src.api.dependencies import get_current_user
-from src.database.models.users import USER
+
 
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"],dependencies=[Depends(get_current_user)])

@@ -1,5 +1,5 @@
 from src.database.session import SessionLocal
-from fastapi import Depends, HTTPException, status ,Header
+from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from src.core.config import SECRET_KEY 
 from src.database.models.users import USER

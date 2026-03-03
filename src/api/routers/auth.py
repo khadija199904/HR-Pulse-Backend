@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Depends,HTTPException
 from sqlalchemy.orm import Session
-from src.api.schemas.user_schema import UserCreate ,UserLogin
+from src.api.schemas.user_schema import UserCreate 
 from src.database.models.users import USER
 from src.api.crud.user_crud import create_user
 from src.core.security import verify_password_hash ,create_token
@@ -37,7 +37,7 @@ async def Register(user : UserCreate ,db: Session = Depends(get_db)) :
    return {"message": "Compte créé avec succès", "username": new_user.username}
 
 
-# Endpoint login protégée
+
 
 @router.post("/login") 
 async def login(user : OAuth2PasswordRequestForm = Depends(),db: Session = Depends(get_db)):
