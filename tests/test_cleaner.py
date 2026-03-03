@@ -9,11 +9,12 @@ from src.data_engineering.data_cleaning import clean_data
 def test_data_quality():
     raw_data = {
         'index': [0, 1, 2],
+        'Company Name': ['Google\n4.5', 'Microsoft\n4.0', 'Meta\n3.8'],  
         'Salary Estimate': ['$50K-$70K', '$60K', '$10K-$20K'],
-        'Rating': [-1, 4.5, 3.0],                        
-        'Founded': [2000, -1, 2010],                     
+        'Rating': [-1, 4.5, 3.0],
+        'Founded': [2000, -1, 2010],
         'Size': ['-1', 'Small', 'Unknown / Non-Applicable'],
-        'Revenue': ['Unknown / Non-Applicable', '$1M', '-1'], 
+        'Revenue': ['Unknown / Non-Applicable', '$1M', '-1'],
         'Sector': ['IT', '-1', 'Finance'],
         'Industry': ['Tech', 'Tech', 'Tech'],
         'Type of ownership': ['Private', 'Public', 'Private'],
