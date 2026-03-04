@@ -1,10 +1,10 @@
 from sqlalchemy import create_engine 
-from src.core.config import DATABASE_URL
+from src.core.config import db_azure_url #, DATABASE_URL
 from sqlalchemy.orm import declarative_base , sessionmaker
 from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 
 
-engine= create_engine(DATABASE_URL)
+engine= create_engine(db_azure_url)
 
 SessionLocal = sessionmaker(autoflush=False,autocommit=False,bind = engine)
 
