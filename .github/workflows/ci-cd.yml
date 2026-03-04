@@ -27,7 +27,7 @@ jobs:
       - name: Exécution des tests Pytest
         env:
           DATABASE_URL: "sqlite:///:memory:"
-          AZURE_SQL_URL: "sqlite:///:memory:"
+          AZURE_DB_URL: ${{ secrets.AZURE_DB_URL }}
         run: |
           export PYTHONPATH=$PYTHONPATH:.
           uv run pytest
