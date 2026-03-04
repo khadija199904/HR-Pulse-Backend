@@ -13,7 +13,7 @@ MODEL_ML_PATH = os.getenv("MODEL_ML_PATH")
 
 azure_key = os.getenv("AZURE_AI_KEY")
 azure_endpoint = os.getenv("AZURE_AI_ENDPOINT")
-db_azure_url = os.getenv("AZURE_DB_URL")
+db_azure_url = os.getenv("DB_AZURE_URL", "sqlite:///:memory:")
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
