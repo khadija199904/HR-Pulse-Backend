@@ -13,22 +13,27 @@ MODEL_ML_PATH = os.getenv("MODEL_ML_PATH")
 
 azure_key = os.getenv("AZURE_AI_KEY")
 azure_endpoint = os.getenv("AZURE_AI_ENDPOINT")
-db_azure_url = os.getenv("DB_AZURE_URL", "sqlite:///:memory:")
+db_azure_url = os.getenv("AZURE_DB_URL")
 
-DATABASE_URL = os.getenv("DATABASE_URL")
 
-if not DATABASE_URL :
+if not db_azure_url :
+     
+    
     # Fetch variables
-     USER = os.getenv("user")
-     PASSWORD = os.getenv("password")
-     HOST = os.getenv("host")
-     PORT = os.getenv("port")
-     DBNAME = os.getenv("dbname")
+     USER = os.getenv("USERNAME")
+     PASSWORD = os.getenv("PASSWORD")
+     HOST = os.getenv("HOST")
+     DBNAME = os.getenv("DATABASE")
      encoded_password = urllib.parse.quote_plus(PASSWORD)
 
      # Construct the SQLAlchemy connection string
-     DATABASE_URL = f"postgresql+psycopg2://{USER}:{encoded_password}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
+     db_azure_url = f"mssql+pyodbc://{USER}:{encoded_password}@{HOST}.database.windows.net/{DBNAME}?driver=ODBC+Driver+18+for+SQL+Server"
+     
 
+     raise ValueError(
+        "CRITICAL: Connection string is empty. "
+        "Check if AZURE_DB_URL or USERNAME/PASSWORD are set in the environment."
+    )
 
  # Configuration de JWT
 SECRET_KEY = os.getenv("SECRET_KEY")
