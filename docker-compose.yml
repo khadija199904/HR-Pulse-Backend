@@ -3,17 +3,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    dns:
+      - 8.8.8.8
     container_name: HR-Pulse-backend
     restart: always
     env_file:
       - .env
     environment:
-      - AZURE_SQL_URL=mssql+pyodbc://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?driver=ODBC+Driver+18+for+SQL+Server
+      - AZURE_DB_URL=${AZURE_DB_URL}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
     ports:
       - "8000:8000"
-    working_dir: /app
-    command: >
-      sh -c "sleep 5 && uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload"
+    depends_on:
+      - jaeger
+    networks:
+      - hr-pulse-network
 
   frontend:
     build:
@@ -23,15 +27,22 @@ services:
     ports:
       - "3001:3000" 
     restart: always
-
+    
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
     depends_on:
       - backend
-
+    networks:
+      - hr-pulse-network
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: jaeger
     ports:
       - "16686:16686" 
       - "4317:4317"   
+    networks:
+      - hr-pulse-network
+  
+networks:
+  hr-pulse-network:
+    driver: bridge
