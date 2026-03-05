@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from src.core.config import DATA_PATH_PROCESSED
+
 
 @pytest.fixture
 def load_data():
