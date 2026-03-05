@@ -1,0 +1,23 @@
+.venv/
+.env
+docs/
+
+
+notebooks/
+tests/
+.git/
+.gitignore
+.githu/
+
+# Python
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*$py.class
+.venv/
+
+
+
+*.pkl.terraform/
+
+
