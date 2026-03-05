@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
   <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI" />
   <img src="https://img.shields.io/badge/Python_3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
@@ -104,3 +105,6 @@ docker run -p 8000:8000 hr-pulse-backend
 
 ---
 **Documentation Interactive** : Une fois le serveur lancé, la documentation interactive Swagger complète est disponible sur : [http://localhost:8000/docs](http://localhost:8000/docs)
+=======
+# hr-pulse-backend
+>>>>>>> origin/main
