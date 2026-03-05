@@ -33,5 +33,7 @@ data/
 
 
 *.pkl.terraform/
+test_ingestiondb.py
+test_juryblan.py
 
 
