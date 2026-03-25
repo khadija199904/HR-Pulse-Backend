@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.database.session import Base,engine
-from src.api.routers import auth, predict, jobs
+from src.api.routers import auth, predict, jobs ,profil
 from src.core.tracing import setup_tracing
 
 app = FastAPI(title="HR Pulse API ",
@@ -32,3 +32,4 @@ Base.metadata.create_all(bind=engine)
 app.include_router(auth.router)
 app.include_router(predict.router)
 app.include_router(jobs.router)
+app.include_router(profil.router)
