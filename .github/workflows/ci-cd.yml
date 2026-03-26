@@ -12,8 +12,11 @@ jobs:
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
 
-     
       - name: Ensure uv is in PATH
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
